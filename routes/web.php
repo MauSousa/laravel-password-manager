@@ -14,7 +14,6 @@ Route::get('dashboard', [PasswordController::class, 'index'])->middleware(['auth
 
 Route::prefix('passwords')->middleware(['auth', 'verified'])->name('passwords.')->group(function () {
     Route::post('/', [PasswordController::class, 'store'])->name('store');
-    Route::get('/{password}', [PasswordController::class, 'show'])->name('show');
     Route::get('/{password}/edit', [PasswordController::class, 'edit'])->name('edit');
     Route::patch('/{password}', [PasswordController::class, 'update'])->name('update');
     Route::delete('/{password}', [PasswordController::class, 'destroy'])->name('destroy');
