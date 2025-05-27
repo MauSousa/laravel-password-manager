@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('passwords', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->string('password');
+            $table->string('password', 255);
             $table->string('url')->unique()->nullable();
             $table->string('username')->nullable();
             $table->timestamps();
