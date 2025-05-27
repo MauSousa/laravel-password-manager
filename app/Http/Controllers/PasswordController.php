@@ -10,6 +10,7 @@ use App\Actions\Passwords\UpdatePassword;
 use App\Http\Requests\StorePasswordRequest;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Models\Password;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Crypt;
 use Inertia\Inertia;
@@ -23,13 +24,13 @@ class PasswordController extends Controller
     public function index(): Response
     {
         return Inertia::render('Dashboard', [
-            'passwords' => Password::with('user')->get()->map(fn ($password) => [
+            'passwords' => Password::with('user')->orderBy('updated_at', 'DESC')->get()->map(fn ($password) => [
                 'id' => $password->id,
                 'url' => $password->url,
                 'password' => Crypt::decryptString($password->password),
                 'username' => $password->username,
-                'created_at' => $password->created_at,
-                'updated_at' => $password->updated_at,
+                'created_at' => Carbon::parse($password->created_at)->format('d-M-Y'),
+                'updated_at' => Carbon::parse($password->updated_at)->format('d-M-Y'),
             ]),
         ]);
     }
